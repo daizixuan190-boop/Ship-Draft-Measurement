@@ -1,5 +1,9 @@
-# A-Lightweight-Framework-for-Ship-Draft-Measurement-via-a-Unified-Detection-Paradigm
+# A Lightweight Framework for Ship Draft Measurement via a Unified Detection Paradigm
 
-#When obtaining the codes and datasets used in this research, please ensure that all files are accessed and downloaded from the following project access link. The codes, datasets, data partition files, annotation files and related reproducibility materials used in this paper will be provided upon reasonable request. If you need access, please contact us by email and specify your name, institution, and the purpose of research/reproduction.: https://pan.baidu.com/s/1tNQL2usnKBrCcvcaYkEW3w 
+To obtain the code and dataset used in this study, please ensure that all files are accessed and downloaded only through the following project access link:
 
-#Extraction code: please email at 2025710769@yangtzeu.edu.cn
+https://pan.baidu.com/s/1tNQL2usnKBrCcvcaYkEW3w
+
+The code, dataset, dataset split files, annotation files, and related reproducibility materials used in this paper will be provided upon reasonable request. To request access, please contact us by email and specify your name, affiliation, and research/reproduction purpose.
+
+Extraction code: please email 2025710769@yangtzeu.edu.cn
