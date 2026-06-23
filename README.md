@@ -1,43 +1,18 @@
 # MD-YOLO Ship Draft Measurement
 
-This repository contains the MD-YOLO code used for ship draft mark and waterline detection, draft-reading evaluation, and single-image visualization in fixed-berth ship draft measurement scenarios.
+This repository provides the code and released weights for MD-YOLO, a visual measurement framework for ship draft mark detection, waterline detection, draft-reading evaluation, and single-image visualization.
 
-## Repository Structure
+## 1. Data
 
-```text
-.
-├── scripts/
-│   ├── train.py
-│   ├── val.py
-│   ├── predict.py
-│   ├── evaluate.py
-│   └── visualize.py
-├── ultralytics/
-│   ├── cfg/datasets/waternum.yaml
-│   ├── cfg/models/mdyolo/mdyolo.yaml
-│   └── ...
-├── weights/
-│   ├── mdyolo_b2.pt
-│   └── mdyolo_b16.pt
-├── requirements.txt
-├── pyproject.toml
-└── LICENSE
-```
+To find the dataset used in this study, please make sure all files are downloaded from:
 
-## Installation
+https://pan.baidu.com/s/1UeZzg4Yqc8Rt-j5UyatZAg
 
-Install a CUDA-enabled PyTorch build that matches your machine, then install the remaining dependencies:
+Extraction code: **please email at 2025710769@yangtzeu.edu.cn**
 
-```bash
-pip install -r requirements.txt
-pip install -e .
-```
+After downloading the dataset, update the `path` field in `ultralytics/cfg/datasets/waternum.yaml`.
 
-## Dataset Format
-
-Update `ultralytics/cfg/datasets/waternum.yaml` so that `path` points to your dataset root.
-
-The expected YOLO-style split file layout is:
+Expected layout:
 
 ```text
 dataset_root/
@@ -49,7 +24,7 @@ dataset_root/
     test.txt
 ```
 
-The class order must remain unchanged:
+Class order:
 
 ```text
 0: 2
@@ -66,7 +41,33 @@ The class order must remain unchanged:
 11: waterline
 ```
 
-## Training
+## 2. Installation
+
+Install a CUDA-enabled PyTorch version suitable for your environment, then run:
+
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+## 3. Repository Structure
+
+```text
+scripts/
+  train.py
+  val.py
+  predict.py
+  evaluate.py
+  visualize.py
+ultralytics/
+  cfg/datasets/waternum.yaml
+  cfg/models/mdyolo/mdyolo.yaml
+weights/
+  mdyolo_b2.pt
+  mdyolo_b16.pt
+```
+
+## 4. Training
 
 ```bash
 python scripts/train.py \
@@ -78,11 +79,9 @@ python scripts/train.py \
   --device 0
 ```
 
-For limited GPU memory, reduce `--batch` and keep `--nbs 64` for nominal batch-size scaling.
+For limited GPU memory, reduce `--batch` and keep `--nbs 64`.
 
-## Detector Validation
-
-Use `val.py` to reproduce detector-level metrics such as precision, recall, `mAP50`, and `mAP50-95`.
+## 5. Validation
 
 ```bash
 python scripts/val.py \
@@ -94,9 +93,7 @@ python scripts/val.py \
   --device 0
 ```
 
-## Detection Prediction
-
-Use `predict.py` for ordinary YOLO-style detection visualization.
+## 6. Prediction
 
 ```bash
 python scripts/predict.py \
@@ -107,9 +104,7 @@ python scripts/predict.py \
   --device 0
 ```
 
-## Draft-Reading Evaluation
-
-Use `evaluate.py` to reconstruct physical draft readings and print scenario-wise metrological metrics.
+## 7. Draft-Reading Evaluation
 
 The test CSV should contain:
 
@@ -117,7 +112,7 @@ The test CSV should contain:
 image_name,manual_draft_m,scenarios
 ```
 
-Example:
+Run:
 
 ```bash
 python scripts/evaluate.py \
@@ -128,9 +123,7 @@ python scripts/evaluate.py \
   --verbose
 ```
 
-## Single-Image Visualization
-
-Use `visualize.py` to estimate one image and save a visualized result.
+## 8. Single-Image Visualization
 
 ```bash
 python scripts/visualize.py \
@@ -139,13 +132,9 @@ python scripts/visualize.py \
   --output outputs/draft_visualization.jpg
 ```
 
-Add `--show` to display the visualization in an OpenCV window.
+Use `--show` to display the visualization window.
 
-## Weights
+## 9. Weights
 
-The `weights/` directory contains released MD-YOLO checkpoints:
-
-- `mdyolo_b2.pt`: checkpoint corresponding to the small-batch training setting.
-- `mdyolo_b16.pt`: checkpoint corresponding to the batch-16 training setting.
-
-Use the checkpoint that matches the experiment you want to reproduce.
+- `weights/mdyolo_b2.pt`: checkpoint trained with the small-batch setting.
+- `weights/mdyolo_b16.pt`: checkpoint trained with the batch-16 setting.
