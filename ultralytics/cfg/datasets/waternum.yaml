@@ -1,0 +1,23 @@
+# Alternate dataset template for the public MD-YOLO release.
+# Update `path` to your local dataset root before training.
+path: "/path/to/ship-draft-dataset"
+
+train: "splits/train.txt"
+val: "splits/val.txt"
+test: "splits/test.txt"
+
+nc: 12
+
+names:
+  0: "2"
+  1: "4"
+  2: "6"
+  3: "8"
+  4: "M"
+  5: "7"
+  6: "9"
+  7: "3"
+  8: "1"
+  9: "0"
+  10: "5"
+  11: "waterline"

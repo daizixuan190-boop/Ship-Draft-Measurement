@@ -1,0 +1,50 @@
+# MD-YOLO: P3 injection design aligned with the paper figure.
+nc: 12
+
+scales:
+  n: [0.50, 0.25, 1024]
+
+backbone:
+  - [-1, 1, MobileNetV4ConvSmall_Slim, [True]]
+
+head:
+  # P5 branch
+  - [0, 1, MNV4FeatureSelect, [2]]
+  - [-1, 1, Conv, [1024, 1, 1]]
+  - [-1, 1, SPPF, [1024, 5]]
+  - [-1, 1, C2PSA, [1024]]
+
+  # Top-down: P5 -> P4
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+
+  # P3 detail injection and P4 alignment
+  - [0, 1, MNV4FeatureSelect, [0]]
+  - [-1, 1, Conv, [128, 3, 2]]
+  - [0, 1, MNV4FeatureSelect, [1]]
+  - [[7, 8], 1, Concat, [1]]
+
+  # Geometry enhancement block
+  - [-1, 1, GAB, [512]]
+
+  # PAN fusion
+  - [[10, 5], 1, Concat, [1]]
+  - [-1, 2, C3k2, [512, False]]
+
+  # Top-down: P4 -> P3
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [0, 1, MNV4FeatureSelect, [0]]
+  - [[13, 14], 1, Concat, [1]]
+  - [-1, 2, C3k2, [256, False]]
+
+  # Bottom-up: P3 -> P4
+  - [-1, 1, Conv, [256, 3, 2]]
+  - [[17, 12], 1, Concat, [1]]
+  - [-1, 2, C3k2, [512, False]]
+
+  # Bottom-up: P4 -> P5
+  - [-1, 1, Conv, [512, 3, 2]]
+  - [[20, 4], 1, Concat, [1]]
+  - [-1, 2, C3k2, [1024, True]]
+
+  # Detect head
+  - [[16, 19, 22], 1, Detect, [nc]]
